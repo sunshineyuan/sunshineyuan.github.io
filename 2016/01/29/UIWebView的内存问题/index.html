@@ -51,18 +51,7 @@
 </span>
     <h1 class="post-title">UIWebView的内存问题</h1>
     <section class="post-content">
-      <p>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：</p>
-<p>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder></coder></pre></p>
-<p>   #pragma mark - webView的代理方法</p>
-<pre><code>- (void)webViewDidFinishLoad:(UIWebView *)webView{
-//关闭缓存
-[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@&quot;WebKitCacheModelPreferenceKey&quot;];
-[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@&quot;WebKitDiskImageCacheEnabled&quot;];
-[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@&quot;WebKitOfflineWebApplicationCacheEnabled&quot;];
-[[NSUserDefaults standardUserDefaults] synchronize];
-</code></pre><p>   }<br>   </p>
-<p>2.退出该页面的时候需要释放不需要占用内存的资源<br>  <pre><coder>-(void)viewDidDisappear:(BOOL)animated<br>{<br>    [super viewDidDisappear:animated];<br>    [_webView loadRequest:nil];<br>    [_webView removeFromSuperview];<br>    _webView = nil;<br>    _webView.delegate = nil;<br>    [_webView stopLoading];<br>}</coder></pre></p>
-<p>3.当收到内存警告的时候，需要处理网络的缓存：</p>
+      <p>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：<br>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder>#pragma mark - webView的代理方法- (void)webViewDidFinishLoad:(UIWebView *)webView{<br>    //关闭缓存<br>    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@”WebKitCacheModelPreferenceKey”];<br>    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitDiskImageCacheEnabled”];<br>    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitOfflineWebApplicationCacheEnabled”];<br>    [[NSUserDefaults standardUserDefaults] synchronize];<br>   }</coder></pre><br>2.退出该页面的时候需要释放不需要占用内存的资源<br>  <pre><coder>-(void)viewDidDisappear:(BOOL)animated<br>{<br>    [super viewDidDisappear:animated];<br>    [_webView loadRequest:nil];<br>    [_webView removeFromSuperview];<br>    _webView = nil;<br>    _webView.delegate = nil;<br>    [_webView stopLoading];<br>}</coder></pre><br>3.当收到内存警告的时候，需要处理网络的缓存：</p>
 <pre><coder>-(void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -81,8 +70,7 @@
     [NSURLCache setSharedURLCache:sharedCache];
     return YES;
 }</code></pre>
-
-<p>2.处理内存警告</p>
+2.处理内存警告
 <pre><coder>- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
