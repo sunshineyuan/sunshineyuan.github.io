@@ -51,15 +51,28 @@
 </span>
     <h1 class="post-title">UIWebView的内存问题</h1>
     <section class="post-content">
-      <p>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：<br>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder>#pragma mark - webView的代理方法- (void)webViewDidFinishLoad:(UIWebView *)webView{<br>    //关闭缓存<br>    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@”WebKitCacheModelPreferenceKey”];<br>    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitDiskImageCacheEnabled”];<br>    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitOfflineWebApplicationCacheEnabled”];<br>    [[NSUserDefaults standardUserDefaults] synchronize];<br>   }</coder></pre><br>2.退出该页面的时候需要释放不需要占用内存的资源<br>  <pre><coder>-(void)viewDidDisappear:(BOOL)animated<br>{<br>    [super viewDidDisappear:animated];<br>    [_webView loadRequest:nil];<br>    [_webView removeFromSuperview];<br>    _webView = nil;<br>    _webView.delegate = nil;<br>    [_webView stopLoading];<br>}</coder></pre><br>3.当收到内存警告的时候，需要处理网络的缓存：</p>
+      <p>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：<br>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder>#pragma mark - webView的代理方法</coder></pre></p>
+<ul>
+<li>(void)webViewDidFinishLoad:(UIWebView *)webView{<br>  //关闭缓存<br>  [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@”WebKitCacheModelPreferenceKey”];<br>  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitDiskImageCacheEnabled”];<br>  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitOfflineWebApplicationCacheEnabled”];<br>  [[NSUserDefaults standardUserDefaults] synchronize];<br>}<br>2.退出该页面的时候需要释放不需要占用内存的资源<pre><coder>-(void)viewDidDisappear:(BOOL)animated
+{
+  [super viewDidDisappear:animated];
+  [_webView loadRequest:nil];
+  [_webView removeFromSuperview];
+  _webView = nil;
+  _webView.delegate = nil;
+  [_webView stopLoading];
+}</coder></pre>
+3.当收到内存警告的时候，需要处理网络的缓存：
 <pre><coder>-(void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+  [super didReceiveMemoryWarning];
+  [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }</coder></pre>
 
+</li>
+</ul>
 <hr>
-<p>第二种：给UIWebView一个内存大小，如果超过了这个限制的内存大小，就需要自动清除网络缓存即可代码如下：(高内存使用率主要原因是未能明确配置：</p><p> <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/index.html" title="Title" target="_blank" rel="external"><br>NSURLCache</a> </p><br>1.首先，让我们配置NSURLCache时，应用程序启动时（任何请求之前取得），高速缓存，所以我们可以控制它的内存使用量。<p></p>
+<p>第二种：给UIWebView一个内存大小，如果超过了这个限制的内存大小，就需要自动清除网络缓存即可代码如下：(高内存使用率主要原因是未能明确配置：</p><p> <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/index.html " title="Title" target="_blank" rel="external"><br>NSURLCache</a></p><br>1.首先，让我们配置NSURLCache时，应用程序启动时（任何请求之前取得），高速缓存，所以我们可以控制它的内存使用量。<p></p>
 <pre><code> 
 #pragma mark - 下面配置了6MB的内存缓存和32MB磁盘高速缓存。磁盘高速缓存将驻留在默认的iOS缓存目录的子目录所谓的“NSUrlCache”里面。
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
