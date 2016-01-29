@@ -51,28 +51,26 @@
 </span>
     <h1 class="post-title">UIWebView的内存问题</h1>
     <section class="post-content">
-      <h2 id="UIWebView_u662F_u6211_u4EEC_u5E94_u7528_u4E2D_u7ECF_u5E38_u4F1A_u4F7F_u7528_u5230_u7684_u4E00_u4E2A_u7B80_u5355_u52A0_u8F7D_u7F51_u9875_u4FE1_u606F_u7684_u4E00_u4E2A_u63A7_u4EF6_uFF0C_u4F46_u4F7F_u7528_u8FD9_u4E2A_u63A7_u4EF6_u4F1A_u9020_u6210_u4E00_u4E9B_u5185_u5B58_u95EE_u9898_u3002_u5176_u5B9E_u8FD9_u4E2A_u95EE_u9898_u81EAiOS7_u4E4B_u540E_u4E00_u76F4_u5B58_u5728_uFF0C_u4F46_u7531_u4E8EUIWebView_u52A0_u8F7D_u7684_u5185_u5BB9_u7A0B_u5E8F_u5458_u65E0_u6CD5_u63A7_u5236_uFF0C_u6240_u4EE5_u4E00_u76F4_u6CA1_u6709_u4E00_u4E2A_u5F88_u597D_u7684_u89E3_u51B3_u529E_u6CD5_u3002_u6700_u8FD1_u516C_u53F8_u9700_u6C42_u8981_u505A_u5927_u91CF_u9875_u9762_u4E0Eh5_u8FDB_u884C_u4EA4_u4E92_uFF0C_u5728_u6B64_u4F1A_u4F7F_u7528_u5230_u5927_u91CF_u7684UIWebView_u52A0_u8F7D_u76F8_u5173_u7684_u5185_u5BB9_2C_u4E3A_u4E86_u9632_u6B62_u5185_u5B58_u6CC4_u6F0F_uFF0C_u800C_u9020_u6210_u7A0B_u5E8FCrash_u7684_u95EE_u9898_uFF0C_u6240_u4EE5_uFF0C_u8FD8_u662F_u9700_u8981_u89E3_u51B3UIWebView_u7684_u95EE_u9898_uFF0C_u73B0_u5728_u6D41_u884C_u4EE5_u4E0B_u7684_u4E24_u79CD_u89E3_u51B3_u529E_u6CD5_uFF1A"><a href="#UIWebView_u662F_u6211_u4EEC_u5E94_u7528_u4E2D_u7ECF_u5E38_u4F1A_u4F7F_u7528_u5230_u7684_u4E00_u4E2A_u7B80_u5355_u52A0_u8F7D_u7F51_u9875_u4FE1_u606F_u7684_u4E00_u4E2A_u63A7_u4EF6_uFF0C_u4F46_u4F7F_u7528_u8FD9_u4E2A_u63A7_u4EF6_u4F1A_u9020_u6210_u4E00_u4E9B_u5185_u5B58_u95EE_u9898_u3002_u5176_u5B9E_u8FD9_u4E2A_u95EE_u9898_u81EAiOS7_u4E4B_u540E_u4E00_u76F4_u5B58_u5728_uFF0C_u4F46_u7531_u4E8EUIWebView_u52A0_u8F7D_u7684_u5185_u5BB9_u7A0B_u5E8F_u5458_u65E0_u6CD5_u63A7_u5236_uFF0C_u6240_u4EE5_u4E00_u76F4_u6CA1_u6709_u4E00_u4E2A_u5F88_u597D_u7684_u89E3_u51B3_u529E_u6CD5_u3002_u6700_u8FD1_u516C_u53F8_u9700_u6C42_u8981_u505A_u5927_u91CF_u9875_u9762_u4E0Eh5_u8FDB_u884C_u4EA4_u4E92_uFF0C_u5728_u6B64_u4F1A_u4F7F_u7528_u5230_u5927_u91CF_u7684UIWebView_u52A0_u8F7D_u76F8_u5173_u7684_u5185_u5BB9_2C_u4E3A_u4E86_u9632_u6B62_u5185_u5B58_u6CC4_u6F0F_uFF0C_u800C_u9020_u6210_u7A0B_u5E8FCrash_u7684_u95EE_u9898_uFF0C_u6240_u4EE5_uFF0C_u8FD8_u662F_u9700_u8981_u89E3_u51B3UIWebView_u7684_u95EE_u9898_uFF0C_u73B0_u5728_u6D41_u884C_u4EE5_u4E0B_u7684_u4E24_u79CD_u89E3_u51B3_u529E_u6CD5_uFF1A" class="headerlink" title="UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法："></a>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：</h2><p>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder>#pragma mark - webView的代理方法</coder></pre></p>
-<ul>
-<li>(void)webViewDidFinishLoad:(UIWebView *)webView{<br>  //关闭缓存<br>  [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@”WebKitCacheModelPreferenceKey”];<br>  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitDiskImageCacheEnabled”];<br>  [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@”WebKitOfflineWebApplicationCacheEnabled”];<br>  [[NSUserDefaults standardUserDefaults] synchronize];<br>}<br>2.退出该页面的时候需要释放不需要占用内存的资源<pre><coder>-(void)viewDidDisappear:(BOOL)animated
-{
-  [super viewDidDisappear:animated];
-  [_webView loadRequest:nil];
-  [_webView removeFromSuperview];
-  _webView = nil;
-  _webView.delegate = nil;
-  [_webView stopLoading];
-}</coder></pre>
-3.当收到内存警告的时候，需要处理网络的缓存：
+      <p>UIWebView是我们应用中经常会使用到的一个简单加载网页信息的一个控件，但使用这个控件会造成一些内存问题。其实这个问题自iOS7之后一直存在，但由于UIWebView加载的内容程序员无法控制，所以一直没有一个很好的解决办法。最近公司需求要做大量页面与h5进行交互，在此会使用到大量的UIWebView加载相关的内容,为了防止内存泄漏，而造成程序Crash的问题，所以，还是需要解决UIWebView的问题，现在流行以下的两种解决办法：</p>
+<hr>
+<p>第一种：网络缓存和释放UIWebView中的多余资源。<br>1.关闭缓存<br>   <pre><coder></coder></pre></p>
+<p>   #pragma mark - webView的代理方法</p>
+<pre><code>- (void)webViewDidFinishLoad:(UIWebView *)webView{
+//关闭缓存
+[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@&quot;WebKitCacheModelPreferenceKey&quot;];
+[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@&quot;WebKitDiskImageCacheEnabled&quot;];
+[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@&quot;WebKitOfflineWebApplicationCacheEnabled&quot;];
+[[NSUserDefaults standardUserDefaults] synchronize];
+</code></pre><p>}<br>2.退出该页面的时候需要释放不需要占用内存的资源<br>  <pre><coder>-(void)viewDidDisappear:(BOOL)animated<br>{<br>    [super viewDidDisappear:animated];<br>    [_webView loadRequest:nil];<br>    [_webView removeFromSuperview];<br>    _webView = nil;<br>    _webView.delegate = nil;<br>    [_webView stopLoading];<br>}</coder></pre><br>3.当收到内存警告的时候，需要处理网络的缓存：</p>
 <pre><coder>-(void)didReceiveMemoryWarning
 {
-  [super didReceiveMemoryWarning];
-  [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [super didReceiveMemoryWarning];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }</coder></pre>
 
-</li>
-</ul>
 <hr>
-<p>第二种：给UIWebView一个内存大小，如果超过了这个限制的内存大小，就需要自动清除网络缓存即可代码如下：(高内存使用率主要原因是未能明确配置：</p><p> <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/index.html " title="Title" target="_blank" rel="external"><br>NSURLCache</a></p><br>1.首先，让我们配置NSURLCache时，应用程序启动时（任何请求之前取得），高速缓存，所以我们可以控制它的内存使用量。<p></p>
+<p>第二种：给UIWebView一个内存大小，如果超过了这个限制的内存大小，就需要自动清除网络缓存即可代码如下：(高内存使用率主要原因是未能明确配置：</p><p> <a href="https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSURLCache_Class/index.html " title="Title" target="_blank" rel="external"><br>NSURLCache</a></p>)<p></p>
+<p>1.首先，让我们配置NSURLCache时，应用程序启动时（任何请求之前取得），高速缓存，所以我们可以控制它的内存使用量。</p>
 <pre><code> 
 #pragma mark - 下面配置了6MB的内存缓存和32MB磁盘高速缓存。磁盘高速缓存将驻留在默认的iOS缓存目录的子目录所谓的“NSUrlCache”里面。
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
